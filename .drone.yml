@@ -42,3 +42,6 @@ steps:
     status: success
     event: push
     branch: master
+volumes:
+- name: deps
+  temp: {}
