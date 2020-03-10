@@ -4,6 +4,7 @@ name: default
 trigger:
   event:
     - push
+    - pull_requests
 
 steps:
 - name: test
