@@ -4,10 +4,16 @@ name: default
 steps:
 - name: test
   image: golang:1.12
+  volumes:
+  - name: deps
+    path: /go
   commands:
   - go test -cover -race ./...
 - name: build
   image: golang:1.12
+  volumes:
+  - name: deps
+    path: /go
   commands:
   - go build -o bin/application
 - name: zip
