@@ -44,4 +44,5 @@ steps:
     branch: master
 volumes:
 - name: deps
-  temp: {}
+  host:
+    path: /gocache
