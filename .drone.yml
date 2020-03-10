@@ -1,6 +1,10 @@
 kind: pipeline
 name: default
 
+trigger:
+  event:
+    - push
+
 steps:
 - name: test
   image: golang:1.12
@@ -13,8 +17,6 @@ steps:
   when:
     status:
       - success
-    event:
-      - push
     branch:
       - master
 - name: deploy-to-beanstalk
@@ -34,7 +36,5 @@ steps:
   when:
     status:
       - success
-    event:
-      - push
     branch:
       - master
