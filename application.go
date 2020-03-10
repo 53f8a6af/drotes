@@ -14,7 +14,7 @@ func main() {
 	}
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Drotes")
+		fmt.Fprintf(w, "Welcome!")
 	})
 
 	log.Printf("Listening on port %s\n\n", port)
