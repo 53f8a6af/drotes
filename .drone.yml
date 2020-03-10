@@ -6,15 +6,18 @@ steps:
   image: golang:1.12
   commands:
   - go test -cover -race ./...
-- name: zip
+- name: build
   image: golang:1.12
   commands:
-  - git archive -o ${DRONE_REPO_NAME}.${DRONE_COMMIT_SHA:0:8}.zip HEAD -- application.go
+  - go build -o bin/application
+- name: zip
+  image: rafaelsq/zip
+  commands:
+  - zip -r ${DRONE_REPO_NAME}.${DRONE_COMMIT_SHA:0:8}.zip bin
   when:
-    status:
-      - success
-    branch:
-      - master
+    status: success
+    event: push
+    branch: master
 - name: deploy-to-beanstalk
   image: rafaelsq/deploy-beanstalk
   environment:
@@ -30,7 +33,6 @@ steps:
     AWS_UPLOAD: true
     AWS_VERSION: ${DRONE_COMMIT_SHA:0:8}
   when:
-    status:
-      - success
-    branch:
-      - master
+    status: success
+    event: push
+    branch: master
