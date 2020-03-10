@@ -1,11 +1,6 @@
 kind: pipeline
 name: default
 
-trigger:
-  event:
-    - push
-    - pull_requests
-
 steps:
 - name: test
   image: golang:1.12
