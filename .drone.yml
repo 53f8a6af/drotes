@@ -1,0 +1,22 @@
+kind: pipeline
+name: default
+
+steps:
+- name: zip
+  image: golang:1.12
+  commands:
+  - git archive -o ${DRONE_REPO_NAME}.${DRONE_COMMIT_SHA:0:8}.zip HEAD -- application.go
+- name: deploy-to-beanstalk
+  image: rafaelsq/deploy-beanstalk
+  environment:
+    AWS_ACCESS_KEY:
+      from_secret: AWS_ACCESS_KEY
+    AWS_SECRET_KEY:
+      from_secret: AWS_SECRET_KEY
+    AWS_BUCKET: elasticbeanstalk-sa-east-1-126122568448
+    AWS_BUCKET_KEY: ${DRONE_REPO_NAME}.${DRONE_COMMIT_SHA:0:8}.zip
+    AWS_APPLICATION: devops
+    AWS_ENVIRONMENT: listen
+    AWS_REGION: sa-east-1
+    AWS_UPLOAD: true
+    AWS_VERSION: ${DRONE_COMMIT_SHA:0:8}
